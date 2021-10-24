@@ -1,3 +1,4 @@
+
 # coding: utf-8
 
 
@@ -10,7 +11,7 @@ import sys
 import numpy
 
 
-def loadDataSet(fileName = 'iyer.csv'):
+def loadDataSet(fileName = 'iris_with_cluster.csv'):
     dataMat=[]
     labelMat=[]
     fr = open(fileName)
@@ -64,16 +65,16 @@ def pca(dataMat, PC_num=2):
     [eigenvalues, eigenvectors] = numpy.linalg.eig(S)
     eigenvectors = eigenvectors.T
     
-    # find max eigenvalue and find corresponding eigenvector of greatest eigenvalue
+    # find max eigenvalue and find correpsonding eigenvector of greatest eigenvalue
     mostCovarianceEigenvalues = []  # ascending list of eigenvalues for dimensions required 
-    mostCovarianceEigenvectors = [] # eigenvalues in orded corresponding to highest eigenvalues
+    mostCovarianceEigenvectors = [] # eigenvalues in order correpsonding to highest eigenvalues
 
     for i in range(PC_num):
         index = numpy.where(eigenvalues == numpy.amax(eigenvalues))
         mostCovarianceEigenvectors.append(eigenvectors[index])
         mostCovarianceEigenvalues.append(eigenvalues[index])
         eigenvalues = numpy.delete(eigenvalues,index)               # delete the eigenvalue with greatest value from the search list
-        eigenvectors = numpy.delete(eigenvectors,index, axis = 0)   # delete thd corresponding eigenvector from the search list
+        eigenvectors = numpy.delete(eigenvectors,index, axis = 0)   # delete the correpsonding eigenvector from the search list
         
     # compute low dimension data matrix using eigen decomposition
     for row in xPrimeMat:
@@ -109,16 +110,15 @@ def plot(lowDDataMat, labelMat, figname):
     
     plt.scatter(y1,y2,c=colors)
     plt.title(figname)
-    plt.savefig(figname) #save file
     plt.show()
-    
+    plt.savefig(figname) #save file
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         filename = sys.argv[1]
     else:
-        filename = 'iyer.csv'
+        filename = 'iris_with_cluster.csv'
     figname = filename
     figname = figname.replace('csv','jpg')
     dataMat, labelMat = loadDataSet(filename)
